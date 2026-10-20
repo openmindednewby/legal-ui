@@ -6,24 +6,8 @@
  */
 import { useState, useCallback, useEffect } from 'react';
 
-import { COOKIE_CONSENT_STORAGE_KEY } from '../constants';
-import { CONSENT_VERSION, type CookieConsent } from '../types';
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-/** Runtime type guard for stored consent records. */
-function isCookieConsent(value: unknown): value is CookieConsent {
-  if (!isRecord(value)) return false;
-  return (
-    value['necessary'] === true &&
-    typeof value['analytics'] === 'boolean' &&
-    typeof value['marketing'] === 'boolean' &&
-    typeof value['consentedAt'] === 'string' &&
-    typeof value['version'] === 'string'
-  );
-}
+import { buildCookieConsent as buildConsent, readCookieConsent as readConsent, writeCookieConsent as writeConsent } from '../consentStore';
+import type { CookieConsent } from '../types';
 
 export interface UseCookieConsentReturn {
   /** Current consent record, or null if user has not yet responded. */
@@ -36,38 +20,6 @@ export interface UseCookieConsentReturn {
   rejectAll: () => void;
   /** Save custom category preferences. */
   savePreferences: (analytics: boolean, marketing: boolean) => void;
-}
-
-function readConsent(): CookieConsent | null {
-  if (typeof window === 'undefined') return null;
-  try {
-    const raw = window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY);
-    if (raw === null) return null;
-    const parsed: unknown = JSON.parse(raw);
-    if (!isCookieConsent(parsed)) return null;
-    return parsed;
-  } catch {
-    return null;
-  }
-}
-
-function writeConsent(consent: CookieConsent): void {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, JSON.stringify(consent));
-  } catch {
-    // localStorage may be unavailable (private browsing, quota exceeded)
-  }
-}
-
-function buildConsent(analytics: boolean, marketing: boolean): CookieConsent {
-  return {
-    necessary: true,
-    analytics,
-    marketing,
-    consentedAt: new Date().toISOString(),
-    version: CONSENT_VERSION,
-  };
 }
 
 export function useCookieConsent(): UseCookieConsentReturn {

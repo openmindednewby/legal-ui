@@ -1,6 +1,6 @@
 {
   "name": "@dloizides/legal-ui",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "GDPR cookie-consent banner + privacy/terms modals (RN-web) for the dloizides.com portfolio. Shares the @dloizides/ui-feedback UI context and @dloizides/ui-icons.",
   "keywords": [
     "react",
@@ -47,6 +47,12 @@
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
       }
+    },
+    "./dom": {
+      "types": "./dist/dom.d.ts",
+      "import": "./dist/dom.mjs",
+      "require": "./dist/dom.js",
+      "default": "./dist/dom.js"
     }
   },
   "files": [
@@ -75,6 +81,9 @@
     "deps:health": "npm run deps:outdated && npm run deps:unused",
     "prepublishOnly": "npm run clean && npm run build && npm run test",
     "version": "npm run build"
+  },
+  "dependencies": {
+    "@dloizides/design-tokens": "^1.13.1"
   },
   "peerDependencies": {
     "@dloizides/ui-feedback": ">=1.1.0",

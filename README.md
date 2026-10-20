@@ -41,3 +41,16 @@ The components call the injected `t(key)` with `cookieConsent.*`, `legal.privacy
 ## License
 
 MIT
+
+## DOM / canvas games (no React)
+
+```ts
+import { mountConsentBanner, readCookieConsent, CONSENT_COPY_KEYS } from '@dloizides/legal-ui/dom';
+import { NEXTGAME_TOKENS } from '@dloizides/design-tokens';
+
+const copy = Object.fromEntries(CONSENT_COPY_KEYS.map((k) => [k, t(`cookieConsent.${k}`)]));
+mountConsentBanner(document.body, { copy, tokens: NEXTGAME_TOKENS, dark: true, privacyPolicyUrl: '/privacy', onConsent: (c) => c.analytics && startAnalytics() });
+```
+
+Returns `null` when consent is stored (`force: true` re-opens it). Pass `arrowKeys: false` when the game's
+`createMenuNav` already moves focus; `handle.focusables()` lists the live controls.
