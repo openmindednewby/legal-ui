@@ -1,6 +1,6 @@
 export { mountConsentBanner } from './mountConsentBanner';
 export { CONSENT_COPY_KEYS } from './types';
-export type { ConsentBannerCopy, ConsentBannerHandle, ConsentCopyKey, MountConsentBannerOptions } from './types';
+export type { ConsentBannerCopy, ConsentBannerHandle, ConsentBannerPlacement, ConsentCopyKey, MountConsentBannerOptions } from './types';
 export { readCookieConsent, writeCookieConsent, buildCookieConsent } from '../consentStore';
 export { CONSENT_VERSION } from '../types';
 export type { CookieConsent } from '../types';

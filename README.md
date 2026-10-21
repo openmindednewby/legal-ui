@@ -54,3 +54,4 @@ mountConsentBanner(document.body, { copy, tokens: NEXTGAME_TOKENS, dark: true, p
 
 Returns `null` when consent is stored (`force: true` re-opens it). Pass `arrowKeys: false` when the game's
 `createMenuNav` already moves focus; `handle.focusables()` lists the live controls.
+Pass `placement: 'inline'` to lay the banner out inside the host box instead of fixing it to the viewport bottom.

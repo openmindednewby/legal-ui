@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0
+
+LEGAL-DOM-1 "Consent banner for DOM/canvas games" follow-up. React `CookieConsentBanner`: Accept all /
+Reject all / Customize / Save preferences and the Privacy policy link now have a 44x44 minimum hit box
+(were 41px and 16px tall). `mountConsentBanner` gains `placement: 'fixed' | 'inline'` (default `fixed`);
+`inline` lays the banner out in the host's flow so a host box contains it. The fixed panel caps to the
+viewport (`100vh`/`100dvh` minus padding and safe area) and scrolls inside.
+
 ## 1.2.0
 
 LEGAL-DOM-1 "Consent banner for DOM/canvas games". New framework-free entry `@dloizides/legal-ui/dom`:

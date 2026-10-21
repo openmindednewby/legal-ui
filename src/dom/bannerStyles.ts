@@ -1,6 +1,7 @@
 import { Z_INDEX, resolveOnBrand, type DesignTokens } from '@dloizides/design-tokens';
 
 export const BANNER_CLASS = 'dlz-consent';
+export const INLINE_CLASS = `${BANNER_CLASS}--inline`;
 
 const MIN_HIT_PX = 44;
 const MAX_WIDTH_PX = 640;
@@ -31,11 +32,13 @@ export function bannerVars(tokens: DesignTokens, dark: boolean): Record<string, 
 }
 
 const c = `.${BANNER_CLASS}`;
+const inline = `.${INLINE_CLASS}`;
+const VIEWPORT_CAP = `${PAD_PX * 2}px - env(safe-area-inset-bottom, 0px)`;
 
 export const BANNER_CSS = [
   `${c}{position:fixed;left:0;right:0;bottom:0;z-index:${Z_INDEX.toast};display:flex;justify-content:center;padding:${PAD_PX}px;padding-bottom:max(${PAD_PX}px,env(safe-area-inset-bottom));box-sizing:border-box;pointer-events:none;font-family:var(--dlz-consent-font);font-size:${FONT_PX}px;line-height:${LINE_HEIGHT}}`,
   `${c} *{box-sizing:border-box}`,
-  `${c}__panel{pointer-events:auto;width:100%;max-width:${MAX_WIDTH_PX}px;max-height:calc(100dvh - ${PAD_PX * 2}px);overflow-y:auto;padding:${PAD_PX}px;border:1px solid var(--dlz-consent-border);border-radius:var(--dlz-consent-radius);background:var(--dlz-consent-surface);color:var(--dlz-consent-text);box-shadow:var(--dlz-consent-shadow)}`,
+  `${c}__panel{pointer-events:auto;width:100%;max-width:${MAX_WIDTH_PX}px;max-height:calc(100vh - ${VIEWPORT_CAP});max-height:calc(100dvh - ${VIEWPORT_CAP});overflow-y:auto;overscroll-behavior:contain;padding:${PAD_PX}px;border:1px solid var(--dlz-consent-border);border-radius:var(--dlz-consent-radius);background:var(--dlz-consent-surface);color:var(--dlz-consent-text);box-shadow:var(--dlz-consent-shadow)}`,
   `${c}__message{margin:0 0 ${GAP_PX}px}`,
   `${c}__row{display:flex;flex-wrap:wrap;gap:${GAP_PX}px}`,
   `${c}__btn{flex:1 1 auto;min-height:${MIN_HIT_PX}px;min-width:${MIN_HIT_PX}px;padding:0 ${PAD_PX}px;border:1px solid var(--dlz-consent-border);border-radius:var(--dlz-consent-button-radius);background:transparent;color:var(--dlz-consent-text);font:inherit;font-weight:600;cursor:pointer;touch-action:manipulation}`,
@@ -47,6 +50,8 @@ export const BANNER_CSS = [
   `${c}__toggle input{width:${MIN_HIT_PX / 2}px;height:${MIN_HIT_PX / 2}px;flex:none;margin:0;accent-color:var(--dlz-consent-primary)}`,
   `${c}__label{display:block;font-weight:600}`,
   `${c}__desc{display:block;font-size:${SMALL_FONT_PX}px;color:var(--dlz-consent-text-secondary)}`,
-  `${c}__link{display:inline-flex;align-items:center;min-height:${MIN_HIT_PX}px;margin-top:4px;padding:0;border:0;background:none;color:var(--dlz-consent-primary);font:inherit;font-size:${SMALL_FONT_PX}px;text-decoration:underline;cursor:pointer}`,
+  `${c}__link{display:inline-flex;align-items:center;min-height:${MIN_HIT_PX}px;min-width:${MIN_HIT_PX}px;margin-top:4px;padding:0;border:0;background:none;color:var(--dlz-consent-primary);font:inherit;font-size:${SMALL_FONT_PX}px;text-decoration:underline;cursor:pointer}`,
   `${c}__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}`,
+  `${inline}{position:relative;left:auto;right:auto;bottom:auto;z-index:auto;flex-direction:column;align-items:center;max-height:100%;padding:0;pointer-events:auto}`,
+  `${inline} ${c}__panel{max-height:none;min-height:0;flex:0 1 auto;box-shadow:none}`,
 ].join('');

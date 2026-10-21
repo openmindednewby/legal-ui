@@ -3,6 +3,7 @@ import { EREVNA_TOKENS } from '@dloizides/design-tokens';
 import { COOKIE_CONSENT_STORAGE_KEY, LEGAL_TEST_IDS } from '../constants';
 import { buildCookieConsent, writeCookieConsent } from '../consentStore';
 
+import { BANNER_CSS, INLINE_CLASS } from './bannerStyles';
 import { mountConsentBanner } from './mountConsentBanner';
 import { CONSENT_COPY_KEYS, type ConsentBannerCopy, type MountConsentBannerOptions } from './types';
 
@@ -16,6 +17,12 @@ function byTestId(id: string): HTMLElement {
   const node = document.querySelector<HTMLElement>(`[data-testid="${id}"]`);
   if (node === null) throw new Error(`missing ${id}`);
   return node;
+}
+
+function cssRule(selector: string): string {
+  const start = BANNER_CSS.indexOf(`${selector}{`);
+  if (start === -1) throw new Error(`missing rule ${selector}`);
+  return BANNER_CSS.slice(start, BANNER_CSS.indexOf('}', start));
 }
 
 function stored(): Record<string, unknown> | null {
@@ -159,5 +166,44 @@ describe('mountConsentBanner', () => {
 
     expect(handle?.root.isConnected).toBe(false);
     expect(stored()).toBeNull();
+  });
+  it('without a placement, mounts fixed to the viewport', () => {
+    const handle = mountConsentBanner(document.body, options());
+
+    const placement = handle?.root.getAttribute('data-placement');
+
+    expect(placement).toBe('fixed');
+    expect(handle?.root.classList.contains(INLINE_CLASS)).toBe(false);
+  });
+
+  it('with inline placement, adds the inline modifier inside the host', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+
+    const handle = mountConsentBanner(host, options({ placement: 'inline' }));
+
+    expect(handle?.root.classList.contains(INLINE_CLASS)).toBe(true);
+    expect(handle?.root.parentElement).toBe(host);
+  });
+
+  it('for the inline modifier, lays out in flow instead of fixed', () => {
+    const rule = cssRule(`.${INLINE_CLASS}`);
+
+    expect(rule).toContain('position:relative');
+    expect(rule).toContain('max-height:100%');
+  });
+
+  it('for the fixed panel, caps to the viewport and scrolls inside', () => {
+    const rule = cssRule('.dlz-consent__panel');
+
+    expect(rule).toContain('max-height:calc(100dvh -');
+    expect(rule).toContain('max-height:calc(100vh -');
+    expect(rule).toContain('overflow-y:auto');
+  });
+
+  it('for every banner control, sets a 44px minimum hit box', () => {
+    const rules = ['.dlz-consent__btn', '.dlz-consent__link', '.dlz-consent__toggle'].map(cssRule);
+
+    rules.forEach((rule) => expect(rule).toContain('min-height:44px'));
   });
 });

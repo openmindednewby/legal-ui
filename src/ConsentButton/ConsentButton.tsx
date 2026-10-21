@@ -12,6 +12,8 @@ const PADDING_HORIZONTAL = 16;
 const BORDER_WIDTH = 1;
 const FONT_SIZE = 14;
 const MIN_MARGIN_TOP = 8;
+export const MIN_HIT_PX = 44;
+const LINK_MARGIN_TOP = 4;
 
 const styles = StyleSheet.create({
   base: {
@@ -21,14 +23,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: BORDER_WIDTH,
-    minWidth: PADDING_HORIZONTAL * 2,
+    minWidth: MIN_HIT_PX,
+    minHeight: MIN_HIT_PX,
     marginTop: MIN_MARGIN_TOP,
+  },
+  linkHit: {
+    minHeight: MIN_HIT_PX,
+    minWidth: MIN_HIT_PX,
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    marginTop: LINK_MARGIN_TOP,
   },
   label: {
     fontSize: FONT_SIZE,
     fontWeight: '600',
   },
 });
+
+export const CONSENT_BUTTON_STYLE = styles.base;
+export const PRIVACY_LINK_HIT_STYLE = styles.linkHit;
 
 export interface ConsentButtonProps {
   label: string;

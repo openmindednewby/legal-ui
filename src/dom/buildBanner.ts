@@ -1,7 +1,7 @@
 import { LEGAL_TEST_IDS } from '../constants';
 
-import { BANNER_CLASS } from './bannerStyles';
-import type { ConsentBannerCopy } from './types';
+import { BANNER_CLASS, INLINE_CLASS } from './bannerStyles';
+import type { ConsentBannerCopy, ConsentBannerPlacement } from './types';
 
 const PRIMARY_MOD = `${BANNER_CLASS}__btn--primary`;
 
@@ -81,8 +81,9 @@ export function makePrivacyLink(doc: Document, copy: ConsentBannerCopy, url?: st
   return link;
 }
 
-export function makeShell(doc: Document): { root: HTMLDivElement; panel: HTMLDivElement; messageId: string } {
-  const root = el(doc, 'div', BANNER_CLASS);
+export function makeShell(doc: Document, placement: ConsentBannerPlacement): { root: HTMLDivElement; panel: HTMLDivElement; messageId: string } {
+  const root = el(doc, 'div', placement === 'inline' ? `${BANNER_CLASS} ${INLINE_CLASS}` : BANNER_CLASS);
+  root.setAttribute('data-placement', placement);
   root.setAttribute('data-testid', LEGAL_TEST_IDS.cookieBanner);
   const panel = el(doc, 'div', `${BANNER_CLASS}__panel`);
   const messageId = nextId('message');

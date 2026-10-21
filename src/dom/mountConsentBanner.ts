@@ -50,7 +50,7 @@ function buildCustomise(doc: Document, options: MountConsentBannerOptions): Cust
 
 function buildRoot(doc: Document, options: MountConsentBannerOptions): { root: HTMLDivElement; buttons: HTMLButtonElement[]; custom: CustomiseParts } {
   const { copy } = options;
-  const { root, panel, messageId } = makeShell(doc);
+  const { root, panel, messageId } = makeShell(doc, options.placement ?? 'fixed');
   Object.entries(bannerVars(options.tokens, options.dark === true)).forEach(([name, value]) => root.style.setProperty(name, value));
   const style = doc.createElement('style');
   style.textContent = BANNER_CSS;

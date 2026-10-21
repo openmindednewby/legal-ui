@@ -7,11 +7,11 @@
  */
 import React, { useState, useCallback } from 'react';
 
-import { StyleSheet, View, Text, Switch, Platform } from 'react-native';
+import { StyleSheet, View, Text, Switch, Platform, TouchableOpacity } from 'react-native';
 
 import { useUi } from '@dloizides/ui-feedback';
 
-import { ConsentButton } from '../ConsentButton/ConsentButton';
+import { ConsentButton, PRIVACY_LINK_HIT_STYLE } from '../ConsentButton/ConsentButton';
 import { PrivacyPolicyModal } from '../PrivacyPolicyModal/PrivacyPolicyModal';
 import { useCookieConsent } from '../hooks/useCookieConsent';
 import { LEGAL_TEST_IDS } from '../constants';
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   toggleLabel: { fontSize: MESSAGE_FONT_SIZE, fontWeight: '600' },
   toggleDescription: { fontSize: SMALL_FONT_SIZE, marginTop: TOGGLE_DESC_MARGIN_TOP },
-  privacyLink: { fontSize: SMALL_FONT_SIZE, marginTop: SECTION_GAP, textDecorationLine: 'underline' },
+  privacyLink: { fontSize: SMALL_FONT_SIZE, textDecorationLine: 'underline' },
 });
 
 export const CookieConsentBanner = (): React.ReactElement | null => {
@@ -196,16 +196,16 @@ export const CookieConsentBanner = (): React.ReactElement | null => {
           </View>
         ) : null}
 
-        <Text
+        <TouchableOpacity
           accessibilityHint={t('cookieConsent.privacyLinkHint')}
           accessibilityLabel={t('cookieConsent.privacyPolicyLink')}
           accessibilityRole="link"
-          style={[styles.privacyLink, { color: primary }]}
+          style={PRIVACY_LINK_HIT_STYLE}
           testID={LEGAL_TEST_IDS.cookiePrivacyLink}
           onPress={handlePrivacyLink}
         >
-          {t('cookieConsent.privacyPolicyLink')}
-        </Text>
+          <Text style={[styles.privacyLink, { color: primary }]}>{t('cookieConsent.privacyPolicyLink')}</Text>
+        </TouchableOpacity>
       </View>
       <PrivacyPolicyModal visible={showPrivacy} onClose={handleClosePrivacy} />
     </View>

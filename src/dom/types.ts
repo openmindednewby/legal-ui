@@ -31,6 +31,9 @@ export type ConsentCopyKey = (typeof CONSENT_COPY_KEYS)[number];
 /** Translated banner copy, supplied by the caller. */
 export type ConsentBannerCopy = Record<ConsentCopyKey, string>;
 
+/** `fixed` pins the banner to the viewport bottom; `inline` lays it out in the host's flow. */
+export type ConsentBannerPlacement = 'fixed' | 'inline';
+
 export interface MountConsentBannerOptions {
   copy: ConsentBannerCopy;
   tokens: DesignTokens;
@@ -41,6 +44,7 @@ export interface MountConsentBannerOptions {
   force?: boolean;
   autoFocus?: boolean;
   arrowKeys?: boolean;
+  placement?: ConsentBannerPlacement;
 }
 
 export interface ConsentBannerHandle {
