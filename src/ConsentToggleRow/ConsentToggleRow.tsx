@@ -36,6 +36,19 @@ export const pressConsentToggle = (
   onValueChange(!value);
 };
 
+interface AttributeTarget {
+  setAttribute: (name: string, value: string) => void;
+}
+
+const isAttributeTarget = (node: unknown): node is AttributeTarget =>
+  typeof node === 'object' && node !== null && typeof (node as Partial<AttributeTarget>).setAttribute === 'function';
+
+/** Makes a web DOM node inert so its descendants leave the Tab order and the accessibility tree. */
+export const makeInert = (node: unknown): void => {
+  if (!isAttributeTarget(node)) return;
+  node.setAttribute('inert', '');
+};
+
 export interface ConsentToggleRowProps {
   label: string;
   description: string;
@@ -74,6 +87,7 @@ export const ConsentToggleRow = ({
       accessibilityLabel={label}
       accessibilityRole="switch"
       accessibilityState={{ checked: value, disabled }}
+      aria-checked={value}
       disabled={disabled}
       style={styles.row}
       testID={testID}
@@ -83,9 +97,17 @@ export const ConsentToggleRow = ({
         <Text style={[styles.label, { color: textColor }]}>{label}</Text>
         <Text style={[styles.description, { color: secondaryTextColor }]}>{description}</Text>
       </View>
-      <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none">
+      <View
+        ref={makeInert}
+        accessibilityElementsHidden
+        aria-hidden
+        importantForAccessibility="no-hide-descendants"
+        pointerEvents="none"
+        testID={`${testID}-switch-wrapper`}
+      >
         <Switch
           disabled={disabled}
+          focusable={false}
           testID={`${testID}-switch`}
           trackColor={{ true: trackOnColor, false: trackOffColor }}
           value={value}

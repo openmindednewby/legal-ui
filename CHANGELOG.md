@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2
+
+LEGAL-DOM-1 "Consent banner for DOM/canvas games" follow-up. `ConsentToggleRow`: the display-only `Switch`
+is now `inert` on web and hidden from assistive tech, so each optional row is a single Tab stop. The row
+now also emits `aria-checked` on web.
+
 ## 1.3.1
 
 LEGAL-DOM-1 "Consent banner for DOM/canvas games" follow-up. React `CookieConsentBanner` Customize panel:
