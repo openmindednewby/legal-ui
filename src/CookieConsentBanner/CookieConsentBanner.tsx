@@ -7,11 +7,12 @@
  */
 import React, { useState, useCallback } from 'react';
 
-import { StyleSheet, View, Text, Switch, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
 
 import { useUi } from '@dloizides/ui-feedback';
 
 import { ConsentButton, PRIVACY_LINK_HIT_STYLE } from '../ConsentButton/ConsentButton';
+import { ConsentToggleRow } from '../ConsentToggleRow/ConsentToggleRow';
 import { PrivacyPolicyModal } from '../PrivacyPolicyModal/PrivacyPolicyModal';
 import { useCookieConsent } from '../hooks/useCookieConsent';
 import { LEGAL_TEST_IDS } from '../constants';
@@ -20,7 +21,6 @@ const BANNER_PADDING = 16;
 const BANNER_MAX_WIDTH = 640;
 const BORDER_RADIUS = 12;
 const SECTION_GAP = 12;
-const TOGGLE_MARGIN_TOP = 8;
 const SHADOW_OFFSET_Y = -2;
 const SHADOW_RADIUS = 8;
 const SHADOW_OPACITY = 0.15;
@@ -29,7 +29,6 @@ const BORDER_WIDTH = 1;
 const MESSAGE_FONT_SIZE = 14;
 const MESSAGE_LINE_HEIGHT = 20;
 const SMALL_FONT_SIZE = 12;
-const TOGGLE_DESC_MARGIN_TOP = 2;
 
 const styles = StyleSheet.create({
   overlay: {
@@ -62,14 +61,6 @@ const styles = StyleSheet.create({
   message: { fontSize: MESSAGE_FONT_SIZE, lineHeight: MESSAGE_LINE_HEIGHT, marginBottom: SECTION_GAP },
   buttonRow: { flexDirection: 'row', gap: SECTION_GAP, flexWrap: 'wrap' },
   customiseSection: { marginTop: SECTION_GAP },
-  toggleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: TOGGLE_MARGIN_TOP,
-  },
-  toggleLabel: { fontSize: MESSAGE_FONT_SIZE, fontWeight: '600' },
-  toggleDescription: { fontSize: SMALL_FONT_SIZE, marginTop: TOGGLE_DESC_MARGIN_TOP },
   privacyLink: { fontSize: SMALL_FONT_SIZE, textDecorationLine: 'underline' },
 });
 
@@ -133,56 +124,42 @@ export const CookieConsentBanner = (): React.ReactElement | null => {
 
         {showCustomise ? (
           <View style={styles.customiseSection}>
-            <View style={styles.toggleRow}>
-              <View>
-                <Text style={[styles.toggleLabel, { color: colors.text }]}>{t('cookieConsent.necessaryLabel')}</Text>
-                <Text style={[styles.toggleDescription, { color: colors.textSecondary }]}>
-                  {t('cookieConsent.necessaryDescription')}
-                </Text>
-              </View>
-              <Switch
-                disabled
-                value
-                accessibilityHint={t('cookieConsent.essentialToggleHint')}
-                accessibilityLabel={t('cookieConsent.necessaryLabel')}
-                testID={LEGAL_TEST_IDS.cookieEssentialToggle}
-                trackColor={{ true: primary, false: colors.border }}
-              />
-            </View>
-
-            <View style={styles.toggleRow}>
-              <View>
-                <Text style={[styles.toggleLabel, { color: colors.text }]}>{t('cookieConsent.analyticsLabel')}</Text>
-                <Text style={[styles.toggleDescription, { color: colors.textSecondary }]}>
-                  {t('cookieConsent.analyticsDescription')}
-                </Text>
-              </View>
-              <Switch
-                accessibilityHint={t('cookieConsent.analyticsToggleHint')}
-                accessibilityLabel={t('cookieConsent.analyticsLabel')}
-                testID={LEGAL_TEST_IDS.cookieAnalyticsToggle}
-                trackColor={{ true: primary, false: colors.border }}
-                value={analytics}
-                onValueChange={setAnalytics}
-              />
-            </View>
-
-            <View style={styles.toggleRow}>
-              <View>
-                <Text style={[styles.toggleLabel, { color: colors.text }]}>{t('cookieConsent.marketingLabel')}</Text>
-                <Text style={[styles.toggleDescription, { color: colors.textSecondary }]}>
-                  {t('cookieConsent.marketingDescription')}
-                </Text>
-              </View>
-              <Switch
-                accessibilityHint={t('cookieConsent.marketingToggleHint')}
-                accessibilityLabel={t('cookieConsent.marketingLabel')}
-                testID={LEGAL_TEST_IDS.cookieMarketingToggle}
-                trackColor={{ true: primary, false: colors.border }}
-                value={marketing}
-                onValueChange={setMarketing}
-              />
-            </View>
+            <ConsentToggleRow
+              disabled
+              value
+              a11yHint={t('cookieConsent.essentialToggleHint')}
+              description={t('cookieConsent.necessaryDescription')}
+              label={t('cookieConsent.necessaryLabel')}
+              secondaryTextColor={colors.textSecondary}
+              testID={LEGAL_TEST_IDS.cookieEssentialToggle}
+              textColor={colors.text}
+              trackOffColor={colors.border}
+              trackOnColor={primary}
+            />
+            <ConsentToggleRow
+              a11yHint={t('cookieConsent.analyticsToggleHint')}
+              description={t('cookieConsent.analyticsDescription')}
+              label={t('cookieConsent.analyticsLabel')}
+              secondaryTextColor={colors.textSecondary}
+              testID={LEGAL_TEST_IDS.cookieAnalyticsToggle}
+              textColor={colors.text}
+              trackOffColor={colors.border}
+              trackOnColor={primary}
+              value={analytics}
+              onValueChange={setAnalytics}
+            />
+            <ConsentToggleRow
+              a11yHint={t('cookieConsent.marketingToggleHint')}
+              description={t('cookieConsent.marketingDescription')}
+              label={t('cookieConsent.marketingLabel')}
+              secondaryTextColor={colors.textSecondary}
+              testID={LEGAL_TEST_IDS.cookieMarketingToggle}
+              textColor={colors.text}
+              trackOffColor={colors.border}
+              trackOnColor={primary}
+              value={marketing}
+              onValueChange={setMarketing}
+            />
 
             <ConsentButton
               primary

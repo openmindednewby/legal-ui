@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1
+
+LEGAL-DOM-1 "Consent banner for DOM/canvas games" follow-up. React `CookieConsentBanner` Customize panel:
+each preference is now a full-width pressable row (`ConsentToggleRow`, min height 44, `accessibilityRole="switch"`)
+that toggles on a row press; the 40x20 `Switch` is display-only inside it. Toggle testIDs move to the row.
+
 ## 1.3.0
 
 LEGAL-DOM-1 "Consent banner for DOM/canvas games" follow-up. React `CookieConsentBanner`: Accept all /
