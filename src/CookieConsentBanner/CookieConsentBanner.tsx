@@ -11,7 +11,7 @@ import { StyleSheet, View, Text, Platform, TouchableOpacity, type LayoutChangeEv
 
 import { useUi } from '@dloizides/ui-feedback';
 
-import { ConsentButton, PRIVACY_LINK_HIT_STYLE } from '../ConsentButton/ConsentButton';
+import { ConsentButton, PRIVACY_LINK_HIT_STYLE, PRIVACY_LINK_LINE_HEIGHT } from '../ConsentButton/ConsentButton';
 import { ConsentToggleRow } from '../ConsentToggleRow/ConsentToggleRow';
 import { PrivacyPolicyModal } from '../PrivacyPolicyModal/PrivacyPolicyModal';
 import { useCookieConsent } from '../hooks/useCookieConsent';
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   message: { fontSize: MESSAGE_FONT_SIZE, lineHeight: MESSAGE_LINE_HEIGHT, marginBottom: SECTION_GAP },
   buttonRow: { flexDirection: 'row', gap: SECTION_GAP, flexWrap: 'wrap' },
   customiseSection: { marginTop: SECTION_GAP },
-  privacyLink: { fontSize: SMALL_FONT_SIZE, textDecorationLine: 'underline' },
+  privacyLink: { fontSize: SMALL_FONT_SIZE, lineHeight: PRIVACY_LINK_LINE_HEIGHT, textDecorationLine: 'underline' },
 });
 
 export const CookieConsentBanner = (): React.ReactElement | null => {

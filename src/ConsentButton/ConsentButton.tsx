@@ -6,13 +6,15 @@ import React, { useMemo } from 'react';
 
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
+import { MIN_HIT_PX } from './hitSize';
+import { PRIVACY_LINK_LINE_HEIGHT, privacyLinkBleed } from './privacyLinkBleed';
+
 const BORDER_RADIUS = 8;
 const PADDING_VERTICAL = 10;
 const PADDING_HORIZONTAL = 16;
 const BORDER_WIDTH = 1;
 const FONT_SIZE = 14;
 const MIN_MARGIN_TOP = 8;
-export const MIN_HIT_PX = 44;
 const LINK_MARGIN_TOP = 4;
 
 const styles = StyleSheet.create({
@@ -33,6 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'flex-start',
     marginTop: LINK_MARGIN_TOP,
+    marginBottom: -privacyLinkBleed(PRIVACY_LINK_LINE_HEIGHT),
   },
   label: {
     fontSize: FONT_SIZE,
@@ -42,6 +45,7 @@ const styles = StyleSheet.create({
 
 export const CONSENT_BUTTON_STYLE = styles.base;
 export const PRIVACY_LINK_HIT_STYLE = styles.linkHit;
+export { MIN_HIT_PX, PRIVACY_LINK_LINE_HEIGHT };
 
 export interface ConsentButtonProps {
   label: string;

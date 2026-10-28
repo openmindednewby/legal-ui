@@ -5,6 +5,9 @@ export type { ConsentButtonProps } from './ConsentButton/ConsentButton';
 export { useCookieConsent } from './hooks/useCookieConsent';
 export type { UseCookieConsentReturn } from './hooks/useCookieConsent';
 export { useConsentBannerInset } from './hooks/useConsentBannerInset';
+export { useConsentInsetStyle } from './hooks/useConsentInsetStyle';
+export { consentInsetStyle } from './consentInsetStyle';
+export type { ConsentInsetStyle } from './consentInsetStyle';
 
 // Legal pages/modals
 export { PrivacyPolicyModal } from './PrivacyPolicyModal/PrivacyPolicyModal';

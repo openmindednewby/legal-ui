@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.1
+
+OBS-1 "Every app ships metrics, production-grade logs and alerts" design-critic fixes. New `useConsentInsetStyle(backgroundColor)`
+and `consentInsetStyle(inset, backgroundColor)` return `{ paddingBottom, backgroundColor }`, so the reserved strip is the
+screen's own surface (no grey seam). The Privacy Policy link keeps its 44px hit box but cancels the 14px of box below
+its 16px text line, so the card's bottom padding matches its top again (grew in 1.3.1).
+
 ## 1.4.0
 
 OBS-1 "Every app ships metrics, production-grade logs and alerts" follow-up. `CookieConsentBanner` reports its
