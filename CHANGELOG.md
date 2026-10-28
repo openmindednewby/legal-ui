@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0
+
+OBS-1 "Every app ships metrics, production-grade logs and alerts" follow-up. `CookieConsentBanner` reports its
+measured overlay height; new export `useConsentBannerInset()` returns it (0 when dismissed or unmounted) so a
+host pads its screen content and the banner never covers a control.
+
 ## 1.3.2
 
 LEGAL-DOM-1 "Consent banner for DOM/canvas games" follow-up. `ConsentToggleRow`: the display-only `Switch`
