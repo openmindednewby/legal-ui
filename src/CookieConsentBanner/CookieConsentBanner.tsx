@@ -5,9 +5,9 @@
  * reject all, or customise analytics/marketing cookies. Consent is persisted in
  * localStorage (via useCookieConsent) so the banner only shows once.
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
-import { StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Platform, TouchableOpacity, type LayoutChangeEvent } from 'react-native';
 
 import { useUi } from '@dloizides/ui-feedback';
 
@@ -15,6 +15,7 @@ import { ConsentButton, PRIVACY_LINK_HIT_STYLE } from '../ConsentButton/ConsentB
 import { ConsentToggleRow } from '../ConsentToggleRow/ConsentToggleRow';
 import { PrivacyPolicyModal } from '../PrivacyPolicyModal/PrivacyPolicyModal';
 import { useCookieConsent } from '../hooks/useCookieConsent';
+import { setConsentBannerHeight } from '../consentBannerInset';
 import { LEGAL_TEST_IDS } from '../constants';
 
 const BANNER_PADDING = 16;
@@ -83,6 +84,14 @@ export const CookieConsentBanner = (): React.ReactElement | null => {
 
   const handlePrivacyLink = useCallback(() => setShowPrivacy(true), []);
   const handleClosePrivacy = useCallback(() => setShowPrivacy(false), []);
+  const handleLayout = useCallback((event: LayoutChangeEvent) => {
+    setConsentBannerHeight(event.nativeEvent.layout.height);
+  }, []);
+
+  useEffect(() => {
+    if (!showBanner) setConsentBannerHeight(0);
+    return () => setConsentBannerHeight(0);
+  }, [showBanner]);
 
   if (!showBanner) return null;
 
@@ -90,7 +99,7 @@ export const CookieConsentBanner = (): React.ReactElement | null => {
   const primary = theme.palette.primary['500'];
 
   return (
-    <View style={styles.overlay} testID={LEGAL_TEST_IDS.cookieBanner}>
+    <View style={styles.overlay} testID={LEGAL_TEST_IDS.cookieBanner} onLayout={handleLayout}>
       <View style={[styles.banner, { backgroundColor: colors.surface, borderColor: colors.border }]}>
         <Text style={[styles.message, { color: colors.text }]}>{t('cookieConsent.message')}</Text>
 
