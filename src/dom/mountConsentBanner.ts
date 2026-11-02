@@ -3,6 +3,7 @@ import { buildCookieConsent, readCookieConsent, writeCookieConsent } from '../co
 
 import { BANNER_CSS, bannerVars } from './bannerStyles';
 import { makeButton, makeElement, makePrivacyLink, makeShell, makeToggle } from './buildBanner';
+import { reserveBannerSpace } from './reserveBannerSpace';
 import type { ConsentBannerHandle, MountConsentBannerOptions } from './types';
 
 const FOCUSABLE = 'button:not([disabled]), input:not([disabled]), a[href]';
@@ -76,8 +77,10 @@ export function mountConsentBanner(host: HTMLElement, options: MountConsentBanne
   const { root, buttons, custom } = buildRoot(host.ownerDocument, options);
   const [accept, reject, customise] = buttons as [HTMLButtonElement, HTMLButtonElement, HTMLButtonElement];
   const onKey = (event: KeyboardEvent): void => moveFocus(root, event);
+  let releaseSpace: (() => void) | null = null;
   const destroy = (): void => {
     root.removeEventListener('keydown', onKey);
+    releaseSpace?.();
     root.remove();
   };
   const decide = (analytics: boolean, marketing: boolean): void => {
@@ -95,6 +98,7 @@ export function mountConsentBanner(host: HTMLElement, options: MountConsentBanne
   });
   if (options.arrowKeys !== false) root.addEventListener('keydown', onKey);
   host.append(root);
+  if (options.reserveSpace === true && options.placement !== 'inline') releaseSpace = reserveBannerSpace(root);
   if (options.autoFocus !== false) accept.focus();
   return { root, focusables: () => visibleFocusables(root), destroy };
 }

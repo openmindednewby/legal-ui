@@ -55,3 +55,6 @@ mountConsentBanner(document.body, { copy, tokens: NEXTGAME_TOKENS, dark: true, p
 Returns `null` when consent is stored (`force: true` re-opens it). Pass `arrowKeys: false` when the game's
 `createMenuNav` already moves focus; `handle.focusables()` lists the live controls.
 Pass `placement: 'inline'` to lay the banner out inside the host box instead of fixing it to the viewport bottom.
+Pass `reserveSpace: true` on a page with controls near the bottom: the fixed banner adds its live height to the body's
+bottom padding and `scroll-padding-bottom`, and sets `--dlz-consent-inset` on `<html>` until dismissed. Sticky bottom bars
+ignore page padding, so lift them yourself: `bottom: var(--dlz-consent-inset, 0px)`.

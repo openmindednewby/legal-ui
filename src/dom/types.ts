@@ -45,6 +45,8 @@ export interface MountConsentBannerOptions {
   autoFocus?: boolean;
   arrowKeys?: boolean;
   placement?: ConsentBannerPlacement;
+  /** Fixed banner only: reserves its live height below the page and publishes it as `--dlz-consent-inset` until dismissed. */
+  reserveSpace?: boolean;
 }
 
 export interface ConsentBannerHandle {

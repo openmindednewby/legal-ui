@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0
+
+BEAD-1 "Bead pattern app: requirements gathering", D-BEAD-33 "Consent banner fix goes in legal-ui". `mountConsentBanner` gains
+`reserveSpace` (default off, other consumers unchanged): while a fixed banner is open its live height (ResizeObserver) goes
+to the body's bottom padding and `scroll-padding-bottom`, and to `--dlz-consent-inset` on `<html>` for sticky bottom bars.
+Released on decision and `destroy()`. The banner's content and look do not change.
+
 ## 1.4.1
 
 OBS-1 "Every app ships metrics, production-grade logs and alerts" design-critic fixes. New `useConsentInsetStyle(backgroundColor)`

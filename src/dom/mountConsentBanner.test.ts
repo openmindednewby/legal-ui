@@ -206,4 +206,58 @@ describe('mountConsentBanner', () => {
 
     rules.forEach((rule) => expect(rule).toContain('min-height:44px'));
   });
+
+  describe('reserveSpace', () => {
+    const BANNER_HEIGHT = 180;
+    const INSET_VAR = '--dlz-consent-inset';
+
+    beforeEach(() => {
+      jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ height: BANNER_HEIGHT } as DOMRect);
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+      document.body.removeAttribute('style');
+      document.documentElement.removeAttribute('style');
+    });
+
+    it('without the option, leaves the page untouched', () => {
+      mountConsentBanner(document.body, options());
+
+      expect(document.documentElement.style.getPropertyValue(INSET_VAR)).toBe('');
+      expect(document.body.style.paddingBottom).toBe('');
+    });
+
+    it('with the option, reserves the banner height while it is open', () => {
+      mountConsentBanner(document.body, options({ reserveSpace: true }));
+
+      expect(document.documentElement.style.getPropertyValue(INSET_VAR)).toBe('180px');
+      expect(document.body.style.paddingBottom).toBe('180px');
+    });
+
+    it('with an inline banner, reserves nothing because it already takes flow space', () => {
+      mountConsentBanner(document.body, options({ reserveSpace: true, placement: 'inline' }));
+
+      expect(document.documentElement.style.getPropertyValue(INSET_VAR)).toBe('');
+      expect(document.body.style.paddingBottom).toBe('');
+    });
+
+    it('with a decision made, gives the space back', () => {
+      mountConsentBanner(document.body, options({ reserveSpace: true }));
+
+      byTestId(LEGAL_TEST_IDS.cookieAcceptAll).click();
+
+      expect(document.documentElement.style.getPropertyValue(INSET_VAR)).toBe('');
+      expect(document.body.style.paddingBottom).toBe('');
+    });
+
+    it('with destroy called, gives the space back', () => {
+      const handle = mountConsentBanner(document.body, options({ reserveSpace: true }));
+
+      handle?.destroy();
+
+      expect(document.documentElement.style.getPropertyValue(INSET_VAR)).toBe('');
+      expect(document.body.style.paddingBottom).toBe('');
+    });
+  });
 });
